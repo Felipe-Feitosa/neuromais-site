@@ -1,0 +1,41 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Claude Code / design-skill local config (machine-specific, not for sharing)
+/.claude/
+/.impeccable/
+
+# Raw reference material (brand deck, source photos, drafts) - already mined
+# into copy and copied into /public where actually used by the site.
+/Apresentação Neuro+.2.pdf
+/logo sem fundo.png
+/logomarca.png
+/hero.png
+/Imagens da clínica/
+/Especialidades/
+/Sites bons.txt
+/Texto 2.txt
+/Texto de apresentação.txt

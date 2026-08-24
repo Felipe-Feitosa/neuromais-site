@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand surfaces - navy and teal are surfaces, never accents */
+  --color-brand-navy: #141c87;
+  --color-brand-navy-deep: #0d1461;
+  --color-brand-teal: #0f7a6a;
+  --color-brand-teal-deep: #0b5e52;
+
+  /* Brand accent - yellow is the ONLY accent color on this site */
+  --color-brand-yellow: #f5b70f;
+  --color-brand-yellow-deep: #d99e02;
+
+  /* The "+" blue from the wordmark: links, focus rings, small marks only */
+  --color-brand-blue: #2b5ce6;
+
+  /* Neutrals */
+  --color-brand-cream: #f6f4ee;
+  --color-ink: #10152e;
+  --color-ink-soft: #454a68;
+
+  --font-display: var(--font-outfit), "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-figtree), "Figtree", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-pill: 999px;
+}
+
+@layer base {
+  * {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      scroll-behavior: auto;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  html {
+    background: var(--color-brand-cream);
+  }
+
+  body {
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-blue);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/*
+ * Journey stack ("Como funciona o acompanhamento").
+ * Adapted from the "Scroll-Driven Scaling Stack" pattern (CodeFronts, MIT):
+ * https://codefronts.com/components/css-stacked-cards/scroll-driven-scaling-stack/
+ * Each card pins with position:sticky; a scroll-driven view() timeline scales
+ * and darkens it as the next card slides up over it. No JavaScript, no scroll
+ * library. Unsupported browsers fall back to a plain sticky stack - the
+ * content is never broken. prefers-reduced-motion is handled globally above.
+ */
+.journey-stack__card {
+  position: sticky;
+  top: calc(96px + var(--i) * 14px);
+  border-radius: 1.25rem;
+  animation: journey-card-shrink linear both;
+  animation-timeline: view();
+  animation-range: exit;
+}
+
+@keyframes journey-card-shrink {
+  to {
+    transform: scale(0.93);
+    filter: brightness(0.8);
+  }
+}
