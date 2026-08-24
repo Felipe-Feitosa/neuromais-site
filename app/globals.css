@@ -84,3 +84,18 @@
     filter: brightness(0.8);
   }
 }
+
+/*
+ * HoloCard (specialty cards) ships with `touch-action: none` on its inner
+ * card element so the pointer-follow tilt can capture the gesture on desktop.
+ * On touch devices that also blocks the page's native vertical scroll the
+ * instant a finger lands on a card. `reducedMotion` (passed from
+ * Specialties on coarse pointers) stops the tilt logic itself, but this
+ * still needs `!important` to beat the component's own injected touch-action
+ * rule and hand scrolling back to the browser.
+ */
+@media (pointer: coarse) {
+  .mk-holo-card {
+    touch-action: pan-y !important;
+  }
+}

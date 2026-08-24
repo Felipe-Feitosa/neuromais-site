@@ -1,4 +1,6 @@
-import type { ComponentType, CSSProperties } from "react";
+"use client";
+
+import { useEffect, useState, type ComponentType, type CSSProperties } from "react";
 import Image from "next/image";
 import {
   Baby,
@@ -102,7 +104,25 @@ const specialties: Specialty[] = [
   },
 ];
 
+/** Touch devices have no real "hover" - the tilt/pointer-follow gesture only
+ * fights native scroll there, so it's forced to the static resting pose. */
+function useIsCoarsePointer() {
+  const [isCoarse, setIsCoarse] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: coarse)");
+    setIsCoarse(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setIsCoarse(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  return isCoarse;
+}
+
 export function Specialties() {
+  const isCoarsePointer = useIsCoarsePointer();
+
   return (
     <section id="especialidades" className="py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4">
@@ -130,6 +150,7 @@ export function Specialties() {
                   <HoloCard
                     aspect={item.aspect}
                     foil="azure"
+                    reducedMotion={isCoarsePointer}
                     label={`Especialidade: ${item.name}. Incline com o ponteiro ou use as setas do teclado.`}
                   >
                     <div className="absolute -inset-5 -z-10 overflow-hidden rounded-[inherit]">
