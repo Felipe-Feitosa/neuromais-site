@@ -2,7 +2,7 @@ import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
 import { StatementBand } from "@/components/statement-band";
 import { About } from "@/components/about";
-import { Specialties } from "@/components/specialties";
+import { Professionals } from "@/components/professionals";
 import { CareJourney } from "@/components/care-journey";
 import { Spaces } from "@/components/spaces";
 import { AgeGroups } from "@/components/age-groups";
@@ -19,7 +19,7 @@ export default function Home() {
         <Hero />
         <StatementBand />
         <About />
-        <Specialties />
+        <Professionals />
         <CareJourney />
         <Spaces />
         <AgeGroups />

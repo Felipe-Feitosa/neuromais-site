@@ -6,7 +6,7 @@ import { NeuroLogo } from "@/components/brand/logo";
 import { buildWhatsappUrl, siteConfig } from "@/lib/site-config";
 
 const navItems = [
-  { href: "#especialidades", label: "Especialidades" },
+  { href: "#profissionais", label: "Profissionais" },
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#estrutura", label: "Estrutura" },
   { href: "#faq", label: "Perguntas frequentes" },

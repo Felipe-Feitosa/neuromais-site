@@ -2,7 +2,7 @@ import { NeuroLogo } from "@/components/brand/logo";
 import { siteConfig } from "@/lib/site-config";
 
 const links = [
-  { href: "#especialidades", label: "Especialidades" },
+  { href: "#profissionais", label: "Profissionais" },
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#estrutura", label: "Estrutura" },
   { href: "#faq", label: "Perguntas frequentes" },
