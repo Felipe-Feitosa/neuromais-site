@@ -20,27 +20,27 @@ const steps: {
     description:
       "Você fala com a Neuro+ pelo WhatsApp ou e-mail e conta um pouco sobre a criança.",
     icon: ChatCircleDots,
-    background: "linear-gradient(135deg, #0f7a6a, #0b5e52)",
+    background: "bg-brand-teal",
   },
   {
     title: "Avaliação",
     description: "Nossa equipe conhece a criança e entende suas necessidades.",
     icon: MagnifyingGlass,
-    background: "linear-gradient(135deg, #141c87, #0d1461)",
+    background: "bg-brand-navy",
   },
   {
     title: "Direcionamento",
     description:
       "Indicamos as especialidades e o caminho mais adequado para o momento da criança.",
     icon: Compass,
-    background: "linear-gradient(135deg, #2b5ce6, #141c87)",
+    background: "bg-brand-navy-deep",
   },
   {
     title: "Acompanhamento",
     description:
       "A criança segue em acompanhamento contínuo, com o plano revisado conforme evolui.",
     icon: ArrowsClockwise,
-    background: "linear-gradient(135deg, #0b5e52, #0d1461)",
+    background: "bg-brand-teal-deep",
   },
 ];
 
@@ -64,8 +64,8 @@ export function CareJourney() {
             return (
               <article
                 key={step.title}
-                className="journey-stack__card mb-10 flex min-h-[220px] flex-col justify-between gap-6 p-7 text-white shadow-[0_30px_60px_-34px_rgba(16,21,46,0.55)] sm:p-9"
-                style={{ "--i": index, background: step.background } as CSSProperties}
+                className={`journey-stack__card mb-10 flex min-h-[220px] flex-col justify-between gap-6 p-7 text-white shadow-[0_30px_60px_-34px_rgba(16,21,46,0.55)] sm:p-9 ${step.background}`}
+                style={{ "--i": index } as CSSProperties}
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold tracking-[0.2em] text-white/70">
