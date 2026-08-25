@@ -12,9 +12,12 @@ type RevealProps = {
 
 /**
  * Wrapper de entrada em scroll. Justificativa de movimento: dá hierarquia de
- * leitura às seções sem exigir interação. Desliga sozinho quando o usuário
- * pede menos movimento (prefers-reduced-motion), requisito não negociável
- * neste projeto por parte do público infantil/neurodivergente.
+ * leitura às seções sem exigir interação, e reage nos dois sentidos (some se
+ * você rolar de volta pra cima, reaparece se descer de novo) - o mesmo
+ * princípio da pilha em "Como funciona": o estado segue a posição de scroll
+ * o tempo todo, não só na primeira vez que a seção aparece. Desliga sozinho
+ * quando o usuário pede menos movimento (prefers-reduced-motion), requisito
+ * não negociável neste projeto por parte do público infantil/neurodivergente.
  */
 export function Reveal({ children, className, delay = 0, y = 16 }: RevealProps) {
   const shouldReduceMotion = useReducedMotion();
@@ -28,7 +31,7 @@ export function Reveal({ children, className, delay = 0, y = 16 }: RevealProps) 
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: false, margin: "-80px" }}
       transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}

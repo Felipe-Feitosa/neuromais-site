@@ -35,10 +35,10 @@ const mark: Variants = {
 
 /**
  * Destaque acionado por scroll, não por ponteiro (hover não existe em touch,
- * e dependia do usuário mirar exatamente na frase). Um único gatilho de
- * entrada no viewport dispara os três marca-textos em cascata, e
- * `viewport={{ once: true }}` garante que, uma vez vistos, ficam acesos -
- * o usuário nunca perde o efeito por rolar rápido demais.
+ * e dependia do usuário mirar exatamente na frase). Segue a posição do
+ * scroll nos dois sentidos, como o resto do site: acende em cascata ao
+ * entrar na tela e apaga se a seção sair de vista, igual à pilha de
+ * "Como funciona".
  */
 function MarkedParagraph() {
   const shouldReduceMotion = useReducedMotion();
@@ -70,7 +70,7 @@ function MarkedParagraph() {
       className="mt-5 text-base leading-relaxed text-ink-soft md:text-lg"
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: false, margin: "-80px" }}
       variants={markGroup}
     >
       A Neuro+ nasce em {siteConfig.brand.city} para oferecer um{" "}

@@ -118,7 +118,7 @@ export function Professionals() {
                   scale: 0.94,
                 }}
                 whileInView={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-60px" }}
+                viewport={{ once: false, margin: "-60px" }}
                 transition={{
                   type: "spring",
                   stiffness: 120,
