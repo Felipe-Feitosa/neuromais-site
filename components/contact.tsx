@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import Image from "next/image";
 import {
   MapPin,
   MapPinLine,
@@ -12,7 +11,6 @@ import {
   ChatCircleDots,
 } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "@/components/reveal";
-import { withBasePath } from "@/lib/base-path";
 import { buildInquiryWhatsappUrl, buildWhatsappUrl, siteConfig } from "@/lib/site-config";
 
 export function Contact() {
@@ -45,28 +43,7 @@ export function Contact() {
               para conversar sobre os próximos passos.
             </p>
 
-            <div className="relative mt-6 overflow-hidden rounded-2xl">
-              <Image
-                src={withBasePath("/clinic/frente.jpeg")}
-                alt={`Fachada da Neuro+ em ${siteConfig.brand.city}`}
-                width={960}
-                height={640}
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="h-56 w-full object-cover sm:h-64"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              <a
-                href={siteConfig.address.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-pill bg-white/95 px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-white"
-              >
-                <MapPinLine size={16} weight="bold" />
-                Ver no mapa
-              </a>
-            </div>
-
-            <ul className="mt-6 space-y-5">
+            <ul className="mt-8 space-y-5">
               <li className="flex items-start gap-3">
                 <ChatCircleDots size={20} className="mt-0.5 shrink-0 text-brand-teal-deep" />
                 <a
@@ -84,6 +61,16 @@ export function Contact() {
                   {siteConfig.address.street}, {siteConfig.address.neighborhood}
                   <br />
                   {siteConfig.address.city} - {siteConfig.address.state}
+                  <br />
+                  <a
+                    href={siteConfig.address.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-brand-teal-deep underline decoration-brand-teal-deep/30 underline-offset-4 hover:text-ink"
+                  >
+                    <MapPinLine size={14} weight="bold" />
+                    Ver no mapa
+                  </a>
                 </span>
               </li>
               <li className="flex items-start gap-3">
