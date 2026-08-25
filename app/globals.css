@@ -99,3 +99,27 @@
     touch-action: pan-y !important;
   }
 }
+
+/*
+ * Text mark-hover ("Quem somos"). Adapted from the "Multi-line gradient
+ * underline" pattern (CodeFronts, MIT):
+ * css-bouncing-letters-animation.html (cat-14b__link--mark demo)
+ * The highlight is a background gradient growing 0%->100% width behind the
+ * phrase, so it slices correctly across wrapped lines - a plain span, not a
+ * link, so it never implies a destination that doesn't exist. Motivated as
+ * a quiet invitation to linger on the clinic's three core promises.
+ */
+.mark-hover {
+  background-image: linear-gradient(
+    color-mix(in oklab, var(--color-brand-yellow) 60%, transparent),
+    color-mix(in oklab, var(--color-brand-yellow) 60%, transparent)
+  );
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 0% 38%;
+  transition: background-size 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.mark-hover:hover {
+  background-size: 100% 38%;
+}

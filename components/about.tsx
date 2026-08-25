@@ -26,13 +26,19 @@ export function About() {
             Quem somos
           </h2>
           <p className="mt-5 text-base leading-relaxed text-ink-soft md:text-lg">
-            A Neuro+ nasce em {siteConfig.brand.city} para oferecer um cuidado
-            especializado, acolhedor e integrado à saúde e ao desenvolvimento
-            infantil. Reunimos uma equipe multidisciplinar, atuando de forma
-            conjunta e individualizada, respeitando as necessidades, o tempo e as
-            potencialidades de cada criança. Mais do que acompanhar o
-            desenvolvimento, queremos acolher famílias, construir caminhos e
-            contribuir para que cada criança alcance o seu melhor potencial.
+            A Neuro+ nasce em {siteConfig.brand.city} para oferecer um{" "}
+            <span className="mark-hover text-ink">
+              cuidado especializado, acolhedor e integrado
+            </span>{" "}
+            à saúde e ao desenvolvimento infantil. Reunimos uma{" "}
+            <span className="mark-hover text-ink">equipe multidisciplinar</span>,
+            atuando de forma conjunta e individualizada, respeitando as
+            necessidades, o tempo e as potencialidades de cada criança. Mais do
+            que acompanhar o desenvolvimento, queremos{" "}
+            <span className="mark-hover text-ink">
+              acolher famílias, construir caminhos
+            </span>{" "}
+            e contribuir para que cada criança alcance o seu melhor potencial.
           </p>
         </Reveal>
 
