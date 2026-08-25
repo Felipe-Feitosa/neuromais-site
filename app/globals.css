@@ -117,3 +117,64 @@
   background-repeat: no-repeat;
   background-position: 0 88%;
 }
+
+/*
+ * Facade pinned-hero handoff (between the "Chega de viagens" band and Quem
+ * somos). Adapted from the "Sticky Scroll Text Opacity Fade" pattern
+ * (CodeFronts, MIT):
+ * https://codefronts.com/motion/css-text-animations/css-sticky-scroll-text-opacity-fade/
+ * The photo pins with position:sticky - universal CSS, works everywhere.
+ * Quem somos sits right after it in normal flow, so it naturally scrolls up
+ * and covers the pinned photo once the sticky budget runs out - no extra
+ * markup needed for that part.
+ *
+ * The source demo drives the decorative blur/fade/zoom off a NAMED
+ * view-timeline declared on an ancestor, animating descendants of the
+ * sticky pin. Tested here, that combination left the timeline's
+ * currentTime permanently null in Chromium (a known sticky-descendant
+ * quirk, tracked upstream as crbug 40154418) - the animation registers but
+ * never progresses. Animating the sticky element itself via the plain
+ * ANONYMOUS view() timeline is the exact pattern already proven working in
+ * the journey stack above, so the recede effect lives on .facade-pin
+ * directly instead of split across named-timeline descendants.
+ */
+.facade-tall {
+  position: relative;
+}
+
+.facade-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.facade-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem 1.5rem 0 0;
+  background: var(--color-brand-cream);
+}
+
+@supports (animation-timeline: view()) {
+  .facade-pin {
+    animation: facade-exit linear both;
+    animation-timeline: view();
+    animation-range: exit;
+  }
+}
+
+@keyframes facade-exit {
+  to {
+    filter: blur(6px) brightness(0.82);
+    transform: scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .facade-pin {
+    animation: none;
+  }
+}

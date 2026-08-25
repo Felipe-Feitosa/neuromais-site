@@ -2,6 +2,7 @@ import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
 import { StatementBand } from "@/components/statement-band";
 import { About } from "@/components/about";
+import { FacadeTransition } from "@/components/facade-transition";
 import { Professionals } from "@/components/professionals";
 import { CareJourney } from "@/components/care-journey";
 import { Spaces } from "@/components/spaces";
@@ -18,7 +19,9 @@ export default function Home() {
       <main id="top">
         <Hero />
         <StatementBand />
-        <About />
+        <FacadeTransition>
+          <About />
+        </FacadeTransition>
         <Professionals />
         <CareJourney />
         <Spaces />
