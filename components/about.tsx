@@ -1,4 +1,7 @@
+"use client";
+
 import { HandHeart, MapPinLine, UsersThree } from "@phosphor-icons/react/dist/ssr";
+import { motion, useReducedMotion, type Variants } from "motion/react";
 import { Reveal } from "@/components/reveal";
 import { siteConfig } from "@/lib/site-config";
 
@@ -17,6 +20,78 @@ const values = [
   },
 ];
 
+const markGroup: Variants = {
+  hidden: {},
+  visible: { transition: { delayChildren: 0.25, staggerChildren: 0.2 } },
+};
+
+const mark: Variants = {
+  hidden: { backgroundSize: "0% 38%" },
+  visible: {
+    backgroundSize: "100% 38%",
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+/**
+ * Destaque acionado por scroll, não por ponteiro (hover não existe em touch,
+ * e dependia do usuário mirar exatamente na frase). Um único gatilho de
+ * entrada no viewport dispara os três marca-textos em cascata, e
+ * `viewport={{ once: true }}` garante que, uma vez vistos, ficam acesos -
+ * o usuário nunca perde o efeito por rolar rápido demais.
+ */
+function MarkedParagraph() {
+  const shouldReduceMotion = useReducedMotion();
+
+  if (shouldReduceMotion) {
+    return (
+      <p className="mt-5 text-base leading-relaxed text-ink-soft md:text-lg">
+        A Neuro+ nasce em {siteConfig.brand.city} para oferecer um{" "}
+        <span className="mark-highlight text-ink" style={{ backgroundSize: "100% 38%" }}>
+          cuidado especializado, acolhedor e integrado
+        </span>{" "}
+        à saúde e ao desenvolvimento infantil. Reunimos uma{" "}
+        <span className="mark-highlight text-ink" style={{ backgroundSize: "100% 38%" }}>
+          equipe multidisciplinar
+        </span>
+        , atuando de forma conjunta e individualizada, respeitando as
+        necessidades, o tempo e as potencialidades de cada criança. Mais do que
+        acompanhar o desenvolvimento, queremos{" "}
+        <span className="mark-highlight text-ink" style={{ backgroundSize: "100% 38%" }}>
+          acolher famílias, construir caminhos
+        </span>{" "}
+        e contribuir para que cada criança alcance o seu melhor potencial.
+      </p>
+    );
+  }
+
+  return (
+    <motion.p
+      className="mt-5 text-base leading-relaxed text-ink-soft md:text-lg"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-80px" }}
+      variants={markGroup}
+    >
+      A Neuro+ nasce em {siteConfig.brand.city} para oferecer um{" "}
+      <motion.span className="mark-highlight text-ink" variants={mark}>
+        cuidado especializado, acolhedor e integrado
+      </motion.span>{" "}
+      à saúde e ao desenvolvimento infantil. Reunimos uma{" "}
+      <motion.span className="mark-highlight text-ink" variants={mark}>
+        equipe multidisciplinar
+      </motion.span>
+      , atuando de forma conjunta e individualizada, respeitando as
+      necessidades, o tempo e as potencialidades de cada criança. Mais do que
+      acompanhar o desenvolvimento, queremos{" "}
+      <motion.span className="mark-highlight text-ink" variants={mark}>
+        acolher famílias, construir caminhos
+      </motion.span>{" "}
+      e contribuir para que cada criança alcance o seu melhor potencial.
+    </motion.p>
+  );
+}
+
 export function About() {
   return (
     <section id="quem-somos" className="py-20 sm:py-24">
@@ -25,21 +100,7 @@ export function About() {
           <h2 className="font-display text-3xl font-semibold tracking-tight text-ink md:text-4xl">
             Quem somos
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-ink-soft md:text-lg">
-            A Neuro+ nasce em {siteConfig.brand.city} para oferecer um{" "}
-            <span className="mark-hover text-ink">
-              cuidado especializado, acolhedor e integrado
-            </span>{" "}
-            à saúde e ao desenvolvimento infantil. Reunimos uma{" "}
-            <span className="mark-hover text-ink">equipe multidisciplinar</span>,
-            atuando de forma conjunta e individualizada, respeitando as
-            necessidades, o tempo e as potencialidades de cada criança. Mais do
-            que acompanhar o desenvolvimento, queremos{" "}
-            <span className="mark-hover text-ink">
-              acolher famílias, construir caminhos
-            </span>{" "}
-            e contribuir para que cada criança alcance o seu melhor potencial.
-          </p>
+          <MarkedParagraph />
         </Reveal>
 
         <Reveal delay={0.1}>
