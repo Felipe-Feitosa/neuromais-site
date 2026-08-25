@@ -15,22 +15,13 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    /*
-     * The facade photo is near-square (~1:1) but this footer band is very
-     * wide and short on desktop, so object-cover has to zoom in hard and
-     * crops most of the building out. lg:object-contain shows the whole
-     * photo instead, letterboxed - the bg-brand-navy base fills those bars
-     * in the same tone as the mask, so it reads as an inset frame rather
-     * than empty gaps. Mobile's own aspect ratio is already close enough
-     * that object-cover shows the building well, so it's left alone there.
-     */
-    <footer className="relative overflow-hidden bg-brand-navy pb-28 pt-14 sm:pb-14">
+    <footer className="relative overflow-hidden pb-28 pt-14 sm:pb-14">
       <Image
         src={withBasePath("/clinic/frente.jpeg")}
         alt=""
         fill
         sizes="100vw"
-        className="object-cover lg:object-contain"
+        className="object-cover"
       />
       <div className="absolute inset-0 bg-brand-navy/85" aria-hidden="true" />
 
