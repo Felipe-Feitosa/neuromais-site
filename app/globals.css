@@ -120,23 +120,22 @@
 
 /*
  * Facade pinned-hero handoff (between the "Chega de viagens" band and Quem
- * somos). Adapted from the "Sticky Scroll Text Opacity Fade" pattern
- * (CodeFronts, MIT):
- * https://codefronts.com/motion/css-text-animations/css-sticky-scroll-text-opacity-fade/
- * The photo pins with position:sticky - universal CSS, works everywhere.
- * Quem somos sits right after it in normal flow, so it naturally scrolls up
- * and covers the pinned photo once the sticky budget runs out - no extra
- * markup needed for that part.
+ * somos). The photo pins with position:sticky - universal CSS, works
+ * everywhere. Quem somos sits right after it in normal flow, so it
+ * naturally scrolls up and covers the pinned photo once the sticky budget
+ * runs out - no extra markup needed for that part.
  *
- * The source demo drives the decorative blur/fade/zoom off a NAMED
- * view-timeline declared on an ancestor, animating descendants of the
- * sticky pin. Tested here, that combination left the timeline's
- * currentTime permanently null in Chromium (a known sticky-descendant
- * quirk, tracked upstream as crbug 40154418) - the animation registers but
- * never progresses. Animating the sticky element itself via the plain
- * ANONYMOUS view() timeline is the exact pattern already proven working in
- * the journey stack above, so the recede effect lives on .facade-pin
- * directly instead of split across named-timeline descendants.
+ * Inside the pin, `.facade-scene` (below) is taller than the pin itself
+ * and gets scroll-driven translateY from Motion (facade-transition.tsx),
+ * panning down the photo before Quem somos arrives - see that file for
+ * why this is Motion-driven JS instead of a CSS view-timeline: a NAMED
+ * view-timeline on a descendant of a sticky ancestor never progressed
+ * here (currentTime stuck null), a known sticky-timeline quirk.
+ *
+ * The decorative recede (blur/scale) on .facade-pin itself still uses the
+ * plain ANONYMOUS view() timeline, the same proven pattern as the journey
+ * stack above - only descendant-of-sticky named timelines were the
+ * problem, not view() on the sticky element itself.
  */
 .facade-tall {
   position: relative;
@@ -157,29 +156,16 @@
 }
 
 /*
- * A foto da fachada é bem mais alta que larga; "object-fit: cover" escala
- * pela dimensão que precisa de mais zoom para cobrir a caixa. Quanto mais
- * larga a proporção da tela em relação à altura, mais esse zoom cresce - e
- * menos céu sobra para os textos por cima (numa janela larga e baixa,
- * praticamente só a fachada aparece, sem nenhum céu limpo). Recuar o
- * objectPosition (menos zoom na vertical, mais céu visível) conforme o
- * aspect-ratio cresce evita que os textos caiam sempre em cima da fachada
- * nessas proporções, ao custo de mostrar menos prédio nelas.
+ * A cena é mais alta que a janela do pin (ver facade-transition.tsx): o
+ * scroll translada essa altura extra pra cima, revelando o prédio aos
+ * poucos, em vez de exigir um único recorte que mostre céu (pro texto) e
+ * prédio (o chamariz da seção) ao mesmo tempo - o que nunca cabia direito
+ * em telas mais largas que altas.
  */
-.facade-photo {
-  object-position: 50% 75%;
-}
-
-@media (min-aspect-ratio: 3/2) {
-  .facade-photo {
-    object-position: 50% 58%;
-  }
-}
-
-@media (min-aspect-ratio: 2/1) {
-  .facade-photo {
-    object-position: 50% 45%;
-  }
+.facade-scene {
+  position: absolute;
+  inset: 0;
+  height: 200vh;
 }
 
 @supports (animation-timeline: view()) {
