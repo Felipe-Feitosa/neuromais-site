@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { FacadeStatement } from "@/components/facade-statement";
+import { Reveal } from "@/components/reveal";
 import { withBasePath } from "@/lib/base-path";
 import { siteConfig } from "@/lib/site-config";
 
@@ -48,6 +49,14 @@ const title = (
  * painel só começa a aparecer POST_PAN_VH depois disso - uma folga
  * pequena, o bastante pra não competirem pelo mesmo trecho de scroll sem
  * virar uma segunda pausa longa.
+ *
+ * O título "Neuro+ Castanhal" mora no mesmo flex-col do parágrafo, só que
+ * com um gap bem maior (`gap-[26vh]`, metade disso na versão estática de
+ * reduced-motion, já que a caixa ali é metade da altura) - assim ele cai
+ * no meio do vazio de céu entre o texto e o prédio sem correr o risco de
+ * colidir com o parágrafo em telas atípicas: o gap segue a altura real do
+ * parágrafo (que pode variar), não uma porcentagem fixa solta. O próprio
+ * `Reveal` dá o fade-in dele no scroll.
  */
 const PAN_LEAD_VH = 0.15;
 const PAN_DISTANCE_VH = 0.85;
@@ -97,9 +106,9 @@ export function FacadeTransition({ children }: { children: ReactNode }) {
               className="absolute inset-0 bg-gradient-to-b from-brand-navy/55 via-brand-navy/10 to-brand-navy/75"
               aria-hidden="true"
             />
-            <div className="absolute inset-x-0 top-[8%] flex flex-col items-center gap-8 px-6 text-center sm:gap-10">
+            <div className="absolute inset-x-0 top-[8%] flex flex-col items-center gap-[13vh] px-6 text-center">
               <FacadeStatement />
-              {title}
+              <Reveal>{title}</Reveal>
             </div>
           </div>
         ) : (
@@ -115,9 +124,9 @@ export function FacadeTransition({ children }: { children: ReactNode }) {
               className="absolute inset-0 bg-gradient-to-b from-brand-navy/55 via-brand-navy/10 to-brand-navy/75"
               aria-hidden="true"
             />
-            <div className="absolute inset-x-0 top-[4%] flex flex-col items-center gap-8 px-6 text-center sm:gap-10">
+            <div className="absolute inset-x-0 top-[4%] flex flex-col items-center gap-[26vh] px-6 text-center">
               <FacadeStatement />
-              {title}
+              <Reveal>{title}</Reveal>
             </div>
           </motion.div>
         )}
