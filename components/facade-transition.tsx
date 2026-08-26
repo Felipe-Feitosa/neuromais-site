@@ -61,7 +61,7 @@ export function FacadeTransition({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      <div className="h-[55vh]" aria-hidden="true" />
+      <div className="h-[100vh]" aria-hidden="true" />
 
       <div className="facade-panel">{children}</div>
     </div>
