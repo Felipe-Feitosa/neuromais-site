@@ -13,10 +13,21 @@ import { siteConfig } from "@/lib/site-config";
  *
  * A foto é bem mais alta que larga, então em telas widescreen o corte
  * "cover" só mostra uma fatia central - o objectPosition aqui foi calibrado
- * para essa fatia cair no meio do céu (onde o texto de abertura entra) e
- * seguir até a fachada com o letreiro (onde fica o título). No mobile, a
- * proporção da tela já é próxima da proporção da foto, então praticamente
- * a imagem inteira aparece e essas mesmas posições continuam batendo.
+ * para essa fatia cair no céu (onde entram os textos) e descer até boa
+ * parte da fachada (letreiro, vidro colorido, entrada). No mobile, a
+ * proporção da tela já é próxima da proporção da foto, então quase não há
+ * corte vertical - o céu limpo dura bem mais nessa faixa do que no
+ * desktop, por isso o título do meio (entre o parágrafo e o prédio) usa um
+ * top% bem diferente por breakpoint: no mobile ele cai em céu limpo, no
+ * desktop cai exatamente na linha escura da borda do telhado, que é o
+ * único respiro disponível ali antes do vidro colorido começar.
+ *
+ * O `facade-dwell` logo abaixo do pin é só um respiro de altura vazia: como
+ * o pin gruda no topo da tela (position:sticky) e o painel seguinte (Quem
+ * somos) começa a cobri-lo assim que aparece pela base, sem esse respiro a
+ * foto ficava visível por pouquíssimo scroll antes de ser tampada. Esse
+ * espaço extra atrasa a chegada do painel, dando tempo real de ver a foto
+ * parada antes da transição.
  */
 export function FacadeTransition({ children }: { children: ReactNode }) {
   return (
@@ -28,7 +39,7 @@ export function FacadeTransition({ children }: { children: ReactNode }) {
           fill
           sizes="100vw"
           className="object-cover"
-          style={{ objectPosition: "50% 65%" }}
+          style={{ objectPosition: "50% 75%" }}
         />
         <div
           className="absolute inset-0 bg-gradient-to-b from-brand-navy/55 via-brand-navy/10 to-brand-navy/75"
@@ -39,7 +50,7 @@ export function FacadeTransition({ children }: { children: ReactNode }) {
           <FacadeStatement />
         </div>
 
-        <div className="absolute inset-x-0 top-[40%] px-6 text-center">
+        <div className="absolute inset-x-0 top-[42%] px-6 text-center sm:top-[33%]">
           <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
             Neuro+{" "}
             <span className="text-xl font-medium sm:text-2xl md:text-3xl">
@@ -48,6 +59,8 @@ export function FacadeTransition({ children }: { children: ReactNode }) {
           </h2>
         </div>
       </div>
+
+      <div className="h-[55vh]" aria-hidden="true" />
 
       <div className="facade-panel">{children}</div>
     </div>
