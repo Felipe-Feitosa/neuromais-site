@@ -11,10 +11,12 @@ import { siteConfig } from "@/lib/site-config";
  * encaixe termina: a altura dele é que define por quanto tempo a foto fica
  * presa antes de ser coberta.
  *
- * A foto é bem mais alta que larga, então em telas widescreen o corte
- * "cover" só mostra uma fatia central - o objectPosition aqui foi calibrado
- * para essa fatia cair no céu (onde entram os textos) e descer até boa
- * parte da fachada (letreiro, vidro colorido, entrada).
+ * A foto é bem mais alta que larga, então o corte "cover" só mostra uma
+ * fatia central - quanto mais larga a proporção da tela em relação à
+ * altura, mais essa fatia precisa dar zoom pra cobrir a largura toda, e
+ * menos céu sobra. `.facade-photo` (globals.css) ajusta o objectPosition
+ * por aspect-ratio: normal mostra bastante fachada, mas em janelas bem
+ * largas e baixas ele recua para preservar céu suficiente para os textos.
  *
  * Parágrafo e título vivem juntos num único flex-col com gap, em vez de
  * cada um ter seu próprio top% solto: telas largas e baixas (janela
@@ -40,8 +42,7 @@ export function FacadeTransition({ children }: { children: ReactNode }) {
           alt={`Fachada da Neuro+ em ${siteConfig.brand.city}`}
           fill
           sizes="100vw"
-          className="object-cover"
-          style={{ objectPosition: "50% 75%" }}
+          className="facade-photo object-cover"
         />
         <div
           className="absolute inset-0 bg-gradient-to-b from-brand-navy/55 via-brand-navy/10 to-brand-navy/75"

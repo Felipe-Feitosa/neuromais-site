@@ -156,6 +156,32 @@
   background: var(--color-brand-cream);
 }
 
+/*
+ * A foto da fachada é bem mais alta que larga; "object-fit: cover" escala
+ * pela dimensão que precisa de mais zoom para cobrir a caixa. Quanto mais
+ * larga a proporção da tela em relação à altura, mais esse zoom cresce - e
+ * menos céu sobra para os textos por cima (numa janela larga e baixa,
+ * praticamente só a fachada aparece, sem nenhum céu limpo). Recuar o
+ * objectPosition (menos zoom na vertical, mais céu visível) conforme o
+ * aspect-ratio cresce evita que os textos caiam sempre em cima da fachada
+ * nessas proporções, ao custo de mostrar menos prédio nelas.
+ */
+.facade-photo {
+  object-position: 50% 75%;
+}
+
+@media (min-aspect-ratio: 3/2) {
+  .facade-photo {
+    object-position: 50% 58%;
+  }
+}
+
+@media (min-aspect-ratio: 2/1) {
+  .facade-photo {
+    object-position: 50% 45%;
+  }
+}
+
 @supports (animation-timeline: view()) {
   .facade-pin {
     animation: facade-exit linear both;
