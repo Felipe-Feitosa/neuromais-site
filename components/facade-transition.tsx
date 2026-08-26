@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { FacadeStatement } from "@/components/facade-statement";
@@ -23,37 +23,65 @@ const title = (
  * encaixe termina: a altura dele é que define por quanto tempo a foto fica
  * presa antes de ser coberta.
  *
- * O prédio é o chamariz desta seção, então ele precisa aparecer de verdade,
- * não só o céu com o texto por cima. Em vez de travar num único recorte
- * estático da foto (que nunca sobrava espaço pra mostrar céu+texto E
- * prédio ao mesmo tempo, principalmente em janelas largas e baixas), a
- * foto mora numa `.facade-scene` mais alta que a janela do pin (200vh
- * contra 100vh) e o scroll a empurra pra cima com Motion: primeiro aparece
- * o céu com o texto parado, e continuando a rolar a "câmera" desce pela
- * foto até revelar o prédio por completo, só então Quem somos entra.
- * `panRef` mede exatamente esse trecho de scroll (uma div vazia do
- * tamanho do curso da câmera) para o progresso ir de 0 a 1 nele. Logo
- * depois dela tem MAIS uma div vazia do tamanho de uma tela inteira: sem
- * ela, "Quem somos" começaria a subir por baixo assim que o pan começasse
- * (as duas coisas dividiriam o mesmo trecho de scroll), cobrindo o prédio
- * antes da câmera terminar de descer. Esse segundo respiro empurra a
- * chegada do painel pra só depois que o pan já terminou.
+ * O prédio é o chamariz desta seção, então ele precisa aparecer de verdade.
+ * A foto mora numa `.facade-scene` mais alta que a janela do pin (200vh
+ * contra 100vh) e o scroll a empurra pra cima com Motion, revelando o
+ * prédio aos poucos.
  *
- * Com `prefers-reduced-motion`, não há câmera pra descer - a foto volta a
- * ser um recorte único e estático (sem a `.facade-scene` mais alta), com
- * um objectPosition fixo que ainda mostra uma fatia razoável do prédio.
+ * O pan é disparado por posição ABSOLUTA de scroll (`scrollY`, medida a
+ * partir do topo real da página), não pelo progresso de uma div solta
+ * depois do pin. Motivo: se o pan só começasse a ser rastreado depois que
+ * a altura inteira do pin (100vh) já tivesse passado, o usuário ficaria
+ * uma tela inteira parado olhando só o texto antes de qualquer coisa se
+ * mexer - exatamente a sensação de "travado" que o pin (sticky) já cria
+ * por natureza. Com scrollY bruto, o pan começa a mexer poucos vh depois
+ * do topo da seção (só o suficiente pro texto assentar), então o scroll
+ * já parece "fazer algo" quase o tempo todo.
+ *
+ * `PAN_LEAD_VH`/`PAN_DISTANCE_VH` definem essa janela em unidades de
+ * altura de viewport; `sectionTop` (medido via ref, refeito a cada
+ * resize) converte isso em pixels absolutos de página.
+ *
+ * A única div vazia depois do pin (`BUFFER_VH`) soma exatamente o quanto
+ * o painel "Quem somos" precisa esperar: o pan termina em PAN_LEAD_VH +
+ * PAN_DISTANCE_VH (cai bem no fim da altura natural do pin, 100vh), e o
+ * painel só começa a aparecer POST_PAN_VH depois disso - uma folga
+ * pequena, o bastante pra não competirem pelo mesmo trecho de scroll sem
+ * virar uma segunda pausa longa.
  */
+const PAN_LEAD_VH = 0.15;
+const PAN_DISTANCE_VH = 0.85;
+const POST_PAN_VH = 0.15;
+const BUFFER_VH = PAN_LEAD_VH + PAN_DISTANCE_VH + POST_PAN_VH;
+
 export function FacadeTransition({ children }: { children: ReactNode }) {
   const shouldReduceMotion = useReducedMotion();
-  const panRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: panRef,
-    offset: ["start start", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
+  const tallRef = useRef<HTMLDivElement>(null);
+  const [bounds, setBounds] = useState<{ start: number; end: number } | null>(null);
+
+  useEffect(() => {
+    function measure() {
+      const el = tallRef.current;
+      if (!el) return;
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      const vh = window.innerHeight;
+      setBounds({ start: top + vh * PAN_LEAD_VH, end: top + vh * (PAN_LEAD_VH + PAN_DISTANCE_VH) });
+    }
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  const { scrollY } = useScroll();
+  const y = useTransform(
+    scrollY,
+    bounds ? [bounds.start, bounds.end] : [0, 1],
+    ["0%", "-50%"],
+    { clamp: true },
+  );
 
   return (
-    <div className="facade-tall">
+    <div ref={tallRef} className="facade-tall">
       <div className="facade-pin">
         {shouldReduceMotion ? (
           <div className="absolute inset-0">
@@ -95,8 +123,7 @@ export function FacadeTransition({ children }: { children: ReactNode }) {
         )}
       </div>
 
-      <div ref={panRef} className="h-[100vh]" aria-hidden="true" />
-      <div className="h-[100vh]" aria-hidden="true" />
+      <div style={{ height: `${BUFFER_VH * 100}vh` }} aria-hidden="true" />
 
       <div className="facade-panel">{children}</div>
     </div>
