@@ -14,13 +14,15 @@ import { siteConfig } from "@/lib/site-config";
  * A foto é bem mais alta que larga, então em telas widescreen o corte
  * "cover" só mostra uma fatia central - o objectPosition aqui foi calibrado
  * para essa fatia cair no céu (onde entram os textos) e descer até boa
- * parte da fachada (letreiro, vidro colorido, entrada). No mobile, a
- * proporção da tela já é próxima da proporção da foto, então quase não há
- * corte vertical - o céu limpo dura bem mais nessa faixa do que no
- * desktop, por isso o título do meio (entre o parágrafo e o prédio) usa um
- * top% bem diferente por breakpoint: no mobile ele cai em céu limpo, no
- * desktop cai exatamente na linha escura da borda do telhado, que é o
- * único respiro disponível ali antes do vidro colorido começar.
+ * parte da fachada (letreiro, vidro colorido, entrada).
+ *
+ * Parágrafo e título vivem juntos num único flex-col com gap, em vez de
+ * cada um ter seu próprio top% solto: telas largas e baixas (janela
+ * maximizada num monitor wide, por exemplo) encolhem a ALTURA do pin sem
+ * encolher o texto (o tamanho da fonte só reage a breakpoints de largura),
+ * então dois top% independentes podiam colidir - o parágrafo cresce e
+ * empurra por cima de onde o título estava fixado. Com gap, a distância
+ * entre os dois nunca fecha, não importa a proporção da janela.
  *
  * O `facade-dwell` logo abaixo do pin é só um respiro de altura vazia: como
  * o pin gruda no topo da tela (position:sticky) e o painel seguinte (Quem
@@ -46,11 +48,9 @@ export function FacadeTransition({ children }: { children: ReactNode }) {
           aria-hidden="true"
         />
 
-        <div className="absolute inset-x-0 top-[13%] px-6 text-center">
+        <div className="absolute inset-x-0 top-[8%] flex flex-col items-center gap-8 px-6 text-center sm:gap-10">
           <FacadeStatement />
-        </div>
 
-        <div className="absolute inset-x-0 top-[42%] px-6 text-center sm:top-[33%]">
           <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
             Neuro+{" "}
             <span className="text-xl font-medium sm:text-2xl md:text-3xl">
