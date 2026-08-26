@@ -147,8 +147,6 @@
   top: 0;
   height: 100vh;
   overflow: hidden;
-  display: grid;
-  place-items: center;
 }
 
 .facade-panel {

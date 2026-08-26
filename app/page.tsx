@@ -1,6 +1,5 @@
 import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
-import { StatementBand } from "@/components/statement-band";
 import { About } from "@/components/about";
 import { FacadeTransition } from "@/components/facade-transition";
 import { Professionals } from "@/components/professionals";
@@ -18,7 +17,6 @@ export default function Home() {
       <SiteHeader />
       <main id="top">
         <Hero />
-        <StatementBand />
         <FacadeTransition>
           <About />
         </FacadeTransition>
