@@ -7,9 +7,6 @@ import {
   PersonSimpleWalk,
   UsersThree,
   Pill,
-  NotePencil,
-  VideoCamera,
-  ClipboardText,
   ChatsCircle,
 } from "@phosphor-icons/react/dist/ssr";
 import { CalendarCheck } from "@phosphor-icons/react/dist/ssr";
@@ -63,32 +60,6 @@ const professionals = [
     icon: Pill,
     role: "Psiquiatra da infância e adolescência",
     description: "Acompanha quadros mais complexos de comportamento, humor, TDAH e TEA.",
-  },
-];
-
-const prepSteps = [
-  {
-    icon: NotePencil,
-    title: "Anote suas observações",
-    description: "O que te preocupa, quando começou e em que situações aparece mais.",
-  },
-  {
-    icon: VideoCamera,
-    title: "Reúna registros",
-    description:
-      "Vídeos curtos de comportamentos que chamam atenção, relatórios da escola e exames anteriores.",
-  },
-  {
-    icon: ClipboardText,
-    title: "Liste marcos importantes",
-    description:
-      "Quando sentou, engatinhou, andou e falou as primeiras palavras, e se houve perda de alguma habilidade.",
-  },
-  {
-    icon: ChatsCircle,
-    title: "Leve suas perguntas",
-    description:
-      "Isso é esperado para a idade? Precisamos de avaliação especializada? Que acompanhamento pode ajudar?",
   },
 ];
 
@@ -199,37 +170,6 @@ export function DevelopmentSigns() {
                   <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">
                     {item.description}
                   </p>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="mx-auto mt-16 max-w-3xl px-4">
-        <Reveal>
-          <h3 className="font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-            Como se preparar para a consulta
-          </h3>
-        </Reveal>
-
-        <div className="mt-8 grid gap-5 sm:grid-cols-2">
-          {prepSteps.map((step, index) => {
-            const Icon = step.icon;
-            return (
-              <Reveal key={step.title} delay={index * 0.05}>
-                <div className="flex items-start gap-3.5">
-                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-teal/10 text-brand-teal-deep">
-                    <Icon size={18} weight="bold" />
-                  </span>
-                  <div>
-                    <p className="font-display text-base font-semibold text-ink">
-                      {step.title}
-                    </p>
-                    <p className="mt-1 text-sm leading-relaxed text-ink-soft">
-                      {step.description}
-                    </p>
-                  </div>
                 </div>
               </Reveal>
             );
