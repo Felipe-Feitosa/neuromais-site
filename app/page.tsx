@@ -6,7 +6,6 @@ import { Professionals } from "@/components/professionals";
 import { DevelopmentSigns } from "@/components/development-signs";
 import { CareJourney } from "@/components/care-journey";
 import { Spaces } from "@/components/spaces";
-import { AgeGroups } from "@/components/age-groups";
 import { Faq } from "@/components/faq";
 import { Contact } from "@/components/contact";
 import { SiteFooter } from "@/components/site-footer";
@@ -25,7 +24,6 @@ export default function Home() {
         <DevelopmentSigns />
         <CareJourney />
         <Spaces />
-        <AgeGroups />
         <Faq />
         <Contact />
       </main>
