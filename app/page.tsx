@@ -3,6 +3,7 @@ import { Hero } from "@/components/hero";
 import { About } from "@/components/about";
 import { FacadeTransition } from "@/components/facade-transition";
 import { Professionals } from "@/components/professionals";
+import { DevelopmentSigns } from "@/components/development-signs";
 import { CareJourney } from "@/components/care-journey";
 import { Spaces } from "@/components/spaces";
 import { AgeGroups } from "@/components/age-groups";
@@ -21,6 +22,7 @@ export default function Home() {
           <About />
         </FacadeTransition>
         <Professionals />
+        <DevelopmentSigns />
         <CareJourney />
         <Spaces />
         <AgeGroups />

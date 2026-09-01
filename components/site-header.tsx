@@ -7,6 +7,7 @@ import { buildWhatsappUrl, siteConfig } from "@/lib/site-config";
 
 const navItems = [
   { href: "#profissionais", label: "Profissionais" },
+  { href: "#sinais-de-alerta", label: "Sinais de alerta" },
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#estrutura", label: "Estrutura" },
   { href: "#faq", label: "Perguntas frequentes" },
